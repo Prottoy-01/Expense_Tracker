@@ -11,6 +11,17 @@ class CalculatePage extends StatefulWidget {
 class _CalculatePageState extends State<CalculatePage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController amountController = TextEditingController();
+  dynamic datetime;
+  dynamic formattedDate;
+  dynamic formattedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    datetime = DateTime.now();
+    formattedDate = "${datetime.day}-${datetime.month}-${datetime.year}";
+    formattedTime = "${datetime.hour}:${datetime.minute}";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +61,9 @@ class _CalculatePageState extends State<CalculatePage> {
                       'amount': updateamount,
                       'realamount': realamount,
                       'addSign': addSign,
+                      'date': formattedDate,
+                      // 'date': datetime.day,
+                      'time': formattedTime,
                     });
                   },
                   child: Text('Add'),
@@ -68,6 +82,9 @@ class _CalculatePageState extends State<CalculatePage> {
                         'amount': amount,
                         'realamount': realamount,
                         'addSign': addSign,
+                        'date': formattedDate,
+                        //'date': datetime.day,
+                        'time': formattedTime,
                       });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
