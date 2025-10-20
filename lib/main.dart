@@ -24,7 +24,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      home: const FirstPage(title: '', amount: 0.0),
+      home: const FirstPage(
+        title: '',
+        amount: 0.0,
+        totalAdd: 0.0,
+        totalCost: 0.0,
+      ),
     );
   }
 }

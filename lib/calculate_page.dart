@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 
 class CalculatePage extends StatefulWidget {
   final double amount;
-  const CalculatePage({super.key, required this.amount});
+  final double totalAdd;
+  final double totalCost;
+  const CalculatePage({
+    super.key,
+    required this.amount,
+    required this.totalAdd,
+    required this.totalCost,
+  });
 
   @override
   State<CalculatePage> createState() => _CalculatePageState();
@@ -56,6 +63,9 @@ class _CalculatePageState extends State<CalculatePage> {
 
                     updateamount = widget.amount + updateamount;
 
+                    //widget.totalAdd = totalAdd + realamount;
+                    double totalAdd = widget.totalAdd + realamount;
+
                     Navigator.pop(context, {
                       'title': titleController.text,
                       'amount': updateamount,
@@ -64,6 +74,7 @@ class _CalculatePageState extends State<CalculatePage> {
                       'date': formattedDate,
                       // 'date': datetime.day,
                       'time': formattedTime,
+                      'totalAdd': totalAdd,
                     });
                   },
                   child: Text('Add'),
@@ -76,6 +87,8 @@ class _CalculatePageState extends State<CalculatePage> {
 
                     if (amount <= widget.amount && widget.amount > 0) {
                       amount = widget.amount - amount;
+                      //totalCost = totalCost + realamount;
+                      double totalCost = widget.totalCost + realamount;
 
                       Navigator.pop(context, {
                         'title': titleController.text,
@@ -85,6 +98,7 @@ class _CalculatePageState extends State<CalculatePage> {
                         'date': formattedDate,
                         //'date': datetime.day,
                         'time': formattedTime,
+                        'totalCost': totalCost,
                       });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

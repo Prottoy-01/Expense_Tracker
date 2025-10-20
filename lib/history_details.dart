@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HistoryDetails extends StatefulWidget {
-  final day;
+  //final day;
   final month;
   final year;
 
   const HistoryDetails({
     super.key,
-    required this.day,
+    //required this.day,
     required this.month,
     required this.year,
   });
@@ -33,7 +33,11 @@ class _HistoryDetailsState extends State<HistoryDetails> {
 
     // Filter items by date
     results = items.where((item) {
-      return item['date'] == "${widget.day}-${widget.month}-${widget.year}";
+      // return item['date'] == "${widget.day}-${widget.month}-${widget.year}";
+      //return item['month'] == "${widget.month}-${widget.year}";
+      return item['date'].toString().contains(
+        "-${widget.month}-${widget.year}",
+      );
     }).toList();
   }
 
@@ -44,7 +48,7 @@ class _HistoryDetailsState extends State<HistoryDetails> {
       body: Center(
         child: Column(
           children: [
-            Text("Details for ${widget.day}-${widget.month}-${widget.year}"),
+            Text("Details for ${widget.month}-${widget.year}"),
             Expanded(
               child: results.isEmpty
                   ? const Center(child: Text("No items found"))

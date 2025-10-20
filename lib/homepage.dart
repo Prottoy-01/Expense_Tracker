@@ -2,11 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:personal_expense_tracker/calculate_page.dart';
 import 'package:personal_expense_tracker/historypage.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class FirstPage extends StatefulWidget {
   final String title;
   final double amount;
-  const FirstPage({super.key, required this.title, required this.amount});
+  final double totalAdd;
+  final double totalCost;
+  const FirstPage({
+    super.key,
+    required this.title,
+    required this.amount,
+    required this.totalAdd,
+    required this.totalCost,
+  });
 
   @override
   State<FirstPage> createState() => _FirstPageState();
@@ -18,6 +27,8 @@ class _FirstPageState extends State<FirstPage> {
   late double currentAmount;
   late double realamount;
   late int addSign;
+  late double totalAdd;
+  late double totalCost;
 
   final Box box = Hive.box('expenses');
 
@@ -27,6 +38,8 @@ class _FirstPageState extends State<FirstPage> {
     currentAmount = widget.amount;
     final savedItems = box.get('items', defaultValue: []);
     final savedAmount = box.get('currentAmount', defaultValue: 0.0);
+    totalAdd = box.get('totalAdd', defaultValue: 0.0);
+    totalCost = box.get('totalCost', defaultValue: 0.0);
 
     items = (savedItems as List)
         .map((item) => Map<String, dynamic>.from(item as Map))
@@ -38,10 +51,24 @@ class _FirstPageState extends State<FirstPage> {
     box.put('items', items);
 
     box.put('currentAmount', currentAmount);
+    box.put('totalAdd', totalAdd);
+    box.put('totalCost', totalCost);
   }
 
   @override
   Widget build(BuildContext context) {
+    // Group items by date
+    final Map<String, List<Map<String, dynamic>>> groupedItems = {};
+    for (var item in items) {
+      final date = item['date'] as String;
+      if (groupedItems[date] == null) {
+        groupedItems[date] = [];
+      }
+      groupedItems[date]!.add(item);
+    }
+    final sortedDates = groupedItems.keys.toList()
+      ..sort((a, b) => b.compareTo(a));
+
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -71,71 +98,181 @@ class _FirstPageState extends State<FirstPage> {
         backgroundColor: const Color.fromARGB(255, 236, 240, 5),
         elevation: 100,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Container(
+        color: Colors.black,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
 
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 90,
-                    color: Colors.amberAccent,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Balance',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            currentAmount.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 30),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(items[index]['title'] ?? ''),
-
-                  trailing: items[index]['addSign'] == 1
-                      ? Icon(Icons.arrow_upward, color: Colors.green)
-                      : Icon(Icons.arrow_downward, color: Colors.red),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
                     children: [
-                      Text(items[index]['realamount'].toString()),
-                      Text(items[index]['date'] ?? ''),
-                      //Text(items[index]['time'] ?? ''),
+                      const Text(
+                        'Total Income',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        '\$${totalAdd.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
-                );
-              },
-              itemCount: items.length,
+                  Column(
+                    children: [
+                      const Text(
+                        'Total Balance',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        '\$${currentAmount.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      const Text(
+                        'Total Expense',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        '\$${totalCost.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: sortedDates.length,
+
+                itemBuilder: (context, index) {
+                  final date = sortedDates[index];
+                  final itemsForDate = groupedItems[date]!;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        date,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.5,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            const Divider(color: Colors.white24, thickness: 1),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: itemsForDate.length,
+                        itemBuilder: (context, itemIndex) {
+                          final item = itemsForDate[itemIndex];
+                          return Slidable(
+                            key: UniqueKey(),
+                            endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    setState(() {
+                                      //Update Main Balance Based on Deleted Item
+                                      if (items[index]['addSign'] == 1) {
+                                        currentAmount =
+                                            currentAmount -
+                                            items[index]['realamount'];
+                                        totalAdd =
+                                            totalAdd -
+                                            items[index]['realamount'];
+                                      } else {
+                                        currentAmount =
+                                            currentAmount +
+                                            items[index]['realamount'];
+                                        totalCost =
+                                            totalCost -
+                                            items[index]['realamount'];
+                                      }
+                                      items.remove(item);
+                                    });
+                                    saveToHive();
+                                  },
+                                  backgroundColor: Colors.red,
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Delete',
+                                ),
+                              ],
+                            ),
+
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Center(
+                                    child: Text(
+                                      item['title'] ?? '',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Center(
+                                    child: Text(
+                                      item['realamount'].toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: item['addSign'] == 1
+                                      ? Center(
+                                          child: const Icon(
+                                            Icons.arrow_upward,
+                                            color: Colors.green,
+                                          ),
+                                        )
+                                      : const Icon(
+                                          Icons.arrow_downward,
+
+                                          color: Colors.red,
+                                        ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      const Divider(height: 15, color: Colors.black),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -143,8 +280,11 @@ class _FirstPageState extends State<FirstPage> {
               await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          CalculatePage(amount: currentAmount),
+                      builder: (context) => CalculatePage(
+                        amount: currentAmount,
+                        totalAdd: totalAdd,
+                        totalCost: totalCost,
+                      ),
                     ),
                   )
                   as Map<String, dynamic>?;
@@ -154,11 +294,13 @@ class _FirstPageState extends State<FirstPage> {
               //month = DateTime.now().month;
 
               currentAmount = number['amount'] ?? 0.0;
+              totalAdd = number['totalAdd'] ?? totalAdd;
+              totalCost = number['totalCost'] ?? totalCost;
             });
             saveToHive();
           }
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personal_expense_tracker/history_details.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -12,6 +13,7 @@ class _HistoryPageState extends State<HistoryPage> {
   dynamic day;
   dynamic month;
   dynamic year;
+
   TextEditingController dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -24,16 +26,19 @@ class _HistoryPageState extends State<HistoryPage> {
               controller: dateController,
               decoration: InputDecoration(hintText: "select date"),
               onTap: () async {
-                final userInput = await showDatePicker(
+                final selectedDate = await showMonthPicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(2000),
-                  lastDate: DateTime(2050),
+                  lastDate: DateTime(2100),
                 );
-                if (userInput != null) {
-                  day = userInput.day;
-                  month = userInput.month;
-                  year = userInput.year;
+                if (selectedDate != null) {
+                  setState(() {
+                    month = selectedDate.month;
+                    year = selectedDate.year;
+
+                    dateController.text = "$month-$year";
+                  });
                 }
               },
             ),
@@ -43,7 +48,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        HistoryDetails(day: day, month: month, year: year),
+                        HistoryDetails(month: month, year: year),
                   ),
                 );
               },
