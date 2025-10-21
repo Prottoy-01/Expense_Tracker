@@ -33,80 +33,119 @@ class _CalculatePageState extends State<CalculatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
               controller: titleController,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                labelText: 'Enter your title',
-                border: OutlineInputBorder(),
+                labelText: 'Enter Description',
+                labelStyle: TextStyle(color: Colors.white),
+
+                /* hintText: "Description",
+                hintStyle: TextStyle(color: Colors.white, fontSize: 12),*/
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
               ),
             ),
+            SizedBox(height: 10),
             TextFormField(
+              style: TextStyle(color: Colors.white),
               controller: amountController,
               decoration: InputDecoration(
-                labelText: 'Enter your amount',
-                border: OutlineInputBorder(),
+                labelText: 'Enter Amount',
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
               ),
             ),
+            SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    double updateamount = double.parse(amountController.text);
-                    double realamount = double.parse(amountController.text);
-                    int addSign = 1;
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor:
+                          Colors.white, // This line sets the text color
+                    ),
+                    onPressed: () {
+                      double updateamount = double.parse(amountController.text);
+                      double realamount = double.parse(amountController.text);
+                      int addSign = 1;
 
-                    updateamount = widget.amount + updateamount;
+                      updateamount = widget.amount + updateamount;
 
-                    //widget.totalAdd = totalAdd + realamount;
-                    double totalAdd = widget.totalAdd + realamount;
-
-                    Navigator.pop(context, {
-                      'title': titleController.text,
-                      'amount': updateamount,
-                      'realamount': realamount,
-                      'addSign': addSign,
-                      'date': formattedDate,
-                      // 'date': datetime.day,
-                      'time': formattedTime,
-                      'totalAdd': totalAdd,
-                    });
-                  },
-                  child: Text('Add'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    double amount = double.parse(amountController.text);
-                    double realamount = double.parse(amountController.text);
-                    int addSign = -1;
-
-                    if (amount <= widget.amount && widget.amount > 0) {
-                      amount = widget.amount - amount;
-                      //totalCost = totalCost + realamount;
-                      double totalCost = widget.totalCost + realamount;
+                      //widget.totalAdd = totalAdd + realamount;
+                      double totalAdd = widget.totalAdd + realamount;
 
                       Navigator.pop(context, {
                         'title': titleController.text,
-                        'amount': amount,
+                        'amount': updateamount,
                         'realamount': realamount,
                         'addSign': addSign,
                         'date': formattedDate,
-                        //'date': datetime.day,
+                        // 'date': datetime.day,
                         'time': formattedTime,
-                        'totalCost': totalCost,
+                        'totalAdd': totalAdd,
                       });
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Your Balance is 0')),
-                      );
-                    }
-                  },
-                  child: Text('Subtract'),
+                    },
+                    child: Text(
+                      'Income',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    /*style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.red),
+                      foregroundColor: WidgetStatePropertyAll(Colors.white),
+                    ),*/
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                    ),
+
+                    onPressed: () {
+                      double amount = double.parse(amountController.text);
+                      double realamount = double.parse(amountController.text);
+                      int addSign = -1;
+
+                      if (amount <= widget.amount && widget.amount > 0) {
+                        amount = widget.amount - amount;
+                        //totalCost = totalCost + realamount;
+                        double totalCost = widget.totalCost + realamount;
+
+                        Navigator.pop(context, {
+                          'title': titleController.text,
+                          'amount': amount,
+                          'realamount': realamount,
+                          'addSign': addSign,
+                          'date': formattedDate,
+                          //'date': datetime.day,
+                          'time': formattedTime,
+                          'totalCost': totalCost,
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Your Balance is 0')),
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Expense',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
               ],
             ),

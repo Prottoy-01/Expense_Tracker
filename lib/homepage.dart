@@ -188,7 +188,8 @@ class _FirstPageState extends State<FirstPage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: itemsForDate.length,
                         itemBuilder: (context, itemIndex) {
-                          final item = itemsForDate[itemIndex];
+                          final item =
+                              itemsForDate[itemIndex]; //core line for logic implemention
                           return Slidable(
                             key: UniqueKey(),
                             endActionPane: ActionPane(
@@ -198,20 +199,18 @@ class _FirstPageState extends State<FirstPage> {
                                   onPressed: (context) {
                                     setState(() {
                                       //Update Main Balance Based on Deleted Item
-                                      if (items[index]['addSign'] == 1) {
+                                      if (item['addSign'] == 1) {
+                                        // It was an income, so removing it means subtracting from total income
                                         currentAmount =
-                                            currentAmount -
-                                            items[index]['realamount'];
+                                            currentAmount - item['realamount'];
                                         totalAdd =
-                                            totalAdd -
-                                            items[index]['realamount'];
+                                            totalAdd - item['realamount'];
                                       } else {
+                                        // It was an expense, so removing it means adding back to balance
                                         currentAmount =
-                                            currentAmount +
-                                            items[index]['realamount'];
+                                            currentAmount + item['realamount'];
                                         totalCost =
-                                            totalCost -
-                                            items[index]['realamount'];
+                                            totalCost - item['realamount'];
                                       }
                                       items.remove(item);
                                     });
