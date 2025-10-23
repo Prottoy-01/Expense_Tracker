@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:personal_expense_tracker/calculate_page.dart';
 import 'package:personal_expense_tracker/historypage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:personal_expense_tracker/visualize_page.dart';
 
 class FirstPage extends StatefulWidget {
   final String title;
@@ -85,6 +86,16 @@ class _FirstPageState extends State<FirstPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const HistoryPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('History'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const VisualaPage()),
                 );
               },
             ),
