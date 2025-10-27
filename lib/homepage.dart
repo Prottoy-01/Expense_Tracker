@@ -79,7 +79,7 @@ class _FirstPageState extends State<FirstPage> {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Colors.black),
               child: Text('Menu'),
             ),
             ListTile(
