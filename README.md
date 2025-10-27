@@ -22,21 +22,6 @@ calculate_page.dart – Lets users add and save income or expense amounts.
 
 visualize_page.dart – Shows a chart comparing current month’s income and expense.
 
-🚀 Getting Started
-Prerequisites
-
-Flutter SDK installed (Flutter installation guide
-)
-
-Android Studio / VS Code
-
-Emulator or physical device
-
-Installation
-git clone https://github.com/Prottoy-01/Expense_Tracker.git
-cd Expense_Tracker
-flutter pub get
-flutter run
 
 🧠 How It Works
 
@@ -50,9 +35,9 @@ Visit Visualize Page to view monthly comparison charts.
 
 (Add screenshots later if you have them)
 
-![Home Page](screenshot1.png)
-![Calculate Page](screenshot2.png)
-![Visualize Page](screenshot3.png)
+![Home Page](https://github.com/Prottoy-01/Expense_Tracker/blob/35cec904b43683a7d2cd3a7883f847a246683b9a/Screenshots/Screenshot_20251027-095148.png)
+![Calculate Page](https://github.com/Prottoy-01/Expense_Tracker/blob/35cec904b43683a7d2cd3a7883f847a246683b9a/Screenshots/Screenshot_20251027-095156.png)
+![Visualize Page](https://github.com/Prottoy-01/Expense_Tracker/blob/35cec904b43683a7d2cd3a7883f847a246683b9a/Screenshots/Screenshot_20251027-094847.png)
 
 🛠 Built With
 
