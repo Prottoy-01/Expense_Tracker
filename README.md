@@ -1,16 +1,63 @@
-# personal_expense_tracker
+💰 Expense Tracker
 
-A new Flutter project.
+A simple Flutter app that helps users track income and expenses, view detailed summaries, and visualize their financial status with charts.
 
-## Getting Started
+📱 Features
 
-This project is a starting point for a Flutter application.
+Add income and expense records easily.
 
-A few resources to get you started if this is your first Flutter project:
+View total income and total expenses on the homepage.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+See detailed records by date.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Compare current month’s income vs expense in a visual chart.
+
+Clean and user-friendly UI.
+
+🧩 Pages Overview
+
+homepage.dart – Displays total income, total expense, and detailed lists by date.
+
+calculate_page.dart – Lets users add and save income or expense amounts.
+
+visualize_page.dart – Shows a chart comparing current month’s income and expense.
+
+🚀 Getting Started
+Prerequisites
+
+Flutter SDK installed (Flutter installation guide
+)
+
+Android Studio / VS Code
+
+Emulator or physical device
+
+Installation
+git clone https://github.com/Prottoy-01/Expense_Tracker.git
+cd Expense_Tracker
+flutter pub get
+flutter run
+
+🧠 How It Works
+
+Go to Calculate Page to add income or expense entries.
+
+Return to Home Page to see updated totals and detailed breakdowns.
+
+Visit Visualize Page to view monthly comparison charts.
+
+📸 Screenshots
+
+(Add screenshots later if you have them)
+
+![Home Page](screenshot1.png)
+![Calculate Page](screenshot2.png)
+![Visualize Page](screenshot3.png)
+
+🛠 Built With
+
+Flutter – UI framework
+
+Dart – Programming language
+
+fl_chart – For data visualization 

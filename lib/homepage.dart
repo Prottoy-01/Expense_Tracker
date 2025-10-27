@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:personal_expense_tracker/calculate_page.dart';
+import 'package:personal_expense_tracker/edit.dart';
 import 'package:personal_expense_tracker/historypage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:personal_expense_tracker/visualize_page.dart';
@@ -72,6 +73,8 @@ class _FirstPageState extends State<FirstPage> {
 
     return Scaffold(
       drawer: Drawer(
+        backgroundColor: Colors.white,
+
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -103,11 +106,14 @@ class _FirstPageState extends State<FirstPage> {
         ),
       ),
       appBar: AppBar(
-        title: Text('Your Personal Expense Tracker'),
+        title: Text(
+          'Total Income & Expenses',
+          style: TextStyle(color: Colors.white),
+        ),
 
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 236, 240, 5),
-        elevation: 100,
+        backgroundColor: const Color.fromARGB(255, 7, 7, 7),
+        elevation: 1000,
       ),
       body: Container(
         color: Colors.black,
@@ -203,6 +209,7 @@ class _FirstPageState extends State<FirstPage> {
                               itemsForDate[itemIndex]; //core line for logic implemention
                           return Slidable(
                             key: UniqueKey(),
+
                             endActionPane: ActionPane(
                               motion: const ScrollMotion(),
                               children: [
@@ -229,8 +236,40 @@ class _FirstPageState extends State<FirstPage> {
                                   },
                                   backgroundColor: Colors.red,
                                   foregroundColor: Colors.white,
-                                  icon: Icons.delete,
+                                  //icon: Icons.delete,
                                   label: 'Delete',
+                                ),
+                                SlidableAction(
+                                  //flex: 1,
+                                  onPressed: (context) async {
+                                    final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditPage(
+                                          item: item['title'].toString(),
+                                          amount: item['realamount'],
+                                        ),
+                                      ),
+                                    );
+                                    // as Map<String, dynamic>?;
+
+                                    if (result != null) {
+                                      setState(() {
+                                        item['title'] =
+                                            result['title'] ?? item['title'];
+                                        item['realamount'] =
+                                            result['amount'] ??
+                                            item['realamount'];
+                                        saveToHive();
+
+                                        if (item['addSign'] == 1) {}
+                                      });
+                                    }
+                                  },
+                                  backgroundColor: Colors.blue,
+                                  foregroundColor: Colors.white,
+                                  //icon: Icons.edit,,
+                                  label: 'Update',
                                 ),
                               ],
                             ),
@@ -286,22 +325,20 @@ class _FirstPageState extends State<FirstPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final number =
-              await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CalculatePage(
-                        amount: currentAmount,
-                        totalAdd: totalAdd,
-                        totalCost: totalCost,
-                      ),
-                    ),
-                  )
-                  as Map<String, dynamic>?;
+          final number = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CalculatePage(
+                amount: currentAmount,
+                totalAdd: totalAdd,
+                totalCost: totalCost,
+              ),
+            ),
+          );
+          //as Map<String, dynamic>?;
           if (number != null) {
             setState(() {
               items.add(number);
-              //month = DateTime.now().month;
 
               currentAmount = number['amount'] ?? 0.0;
               totalAdd = number['totalAdd'] ?? totalAdd;

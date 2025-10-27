@@ -45,35 +45,38 @@ class _HistoryDetailsState extends State<HistoryDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('History Details')),
-      body: Center(
-        child: Column(
-          children: [
-            Text("Details for ${widget.month}-${widget.year}"),
-            Expanded(
-              child: results.isEmpty
-                  ? const Center(child: Text("No items found"))
-                  : ListView.builder(
-                      itemCount: results.length,
-                      itemBuilder: (context, index) {
-                        final item = results[index];
-                        return ListTile(
-                          title: Text(item['title'] ?? ''),
-                          trailing: item['addSign'] == 1
-                              ? Icon(Icons.arrow_upward, color: Colors.green)
-                              : Icon(Icons.arrow_downward, color: Colors.red),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item['realamount'].toString()),
-                              Text(item['date'] ?? ''),
-                              // Text(item['time'] ?? ''), // optional
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Column(
+            children: [
+              Text("Details for ${widget.month}-${widget.year}"),
+              Expanded(
+                child: results.isEmpty
+                    ? const Center(child: Text("No items found"))
+                    : ListView.builder(
+                        itemCount: results.length,
+                        itemBuilder: (context, index) {
+                          final item = results[index];
+                          return ListTile(
+                            title: Text(item['title'] ?? ''),
+                            trailing: item['addSign'] == 1
+                                ? Icon(Icons.arrow_upward, color: Colors.green)
+                                : Icon(Icons.arrow_downward, color: Colors.red),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(item['realamount'].toString()),
+                                Text(item['date'] ?? ''),
+                                // Text(item['time'] ?? ''), // optional
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );

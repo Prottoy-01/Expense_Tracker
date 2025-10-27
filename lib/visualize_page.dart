@@ -41,16 +41,12 @@ class _VisualaPageState extends State<VisualaPage> {
     //logic implemention
 
     final List<Map<String, dynamic>> firstweek = [];
-    /*final Map<String, List<Map<String, dynamic>>> secondweek = {};*/
 
     final List<Map<String, dynamic>> secondweek = [];
     final List<Map<String, dynamic>> thirdweek = [];
     final List<Map<String, dynamic>> lastweek = [];
 
     for (var item in items) {
-      /* final date = item['date'] as String;
-      final parsedate = DateTime.parse(date);
-      final day = parsedate.day;*/
       final date = item['date'] as String;
       final dateFormat = DateFormat('dd-MM-yyyy');
       final parsedDate = dateFormat.parse(date);
@@ -101,101 +97,90 @@ class _VisualaPageState extends State<VisualaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Weekly Income & Expenses'),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          'Weekly Income & Expenses',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
       ),
 
-      /*body: Center(
-        child: PieChart(
-          PieChartData(
-            sectionsSpace: 0,
-            sections: [
-              PieChartSectionData(value: firstweekincome, color: Colors.green),
-              PieChartSectionData(value: firstweekexpense, color: Colors.red),
-              PieChartSectionData(value: secondweekincome, color: Colors.green),
-              PieChartSectionData(value: secondweekexpense, color: Colors.red),
-              PieChartSectionData(value: thirdweekincome, color: Colors.green),
-              PieChartSectionData(value: thirdweekexpense, color: Colors.red),
-              PieChartSectionData(value: lastweekincome, color: Colors.green),
-              PieChartSectionData(value: lastweekexpense, color: Colors.red),
-            ],
-          ),
-        ),
-      ),*/
       body: Center(
-        child: BarChart(
-          BarChartData(
-            groupsSpace: 5,
-            barGroups: [
-              BarChartGroupData(
-                x: 0,
-                barRods: [
-                  BarChartRodData(
-                    fromY: 0,
-                    toY: firstweekincome,
-                    color: Colors.green,
-                    width: 15,
-                  ),
-                  BarChartRodData(
-                    fromY: 0,
-                    toY: firstweekexpense,
-                    color: Colors.red,
-                    width: 15,
-                  ),
-                ],
-              ),
-              BarChartGroupData(
-                x: 1,
-                barRods: [
-                  BarChartRodData(
-                    fromY: 0,
-                    toY: secondweekincome,
-                    color: Colors.green,
-                    width: 15,
-                  ),
-                  BarChartRodData(
-                    fromY: 0,
-                    toY: secondweekexpense,
-                    color: Colors.red,
-                    width: 15,
-                  ),
-                ],
-              ),
-              BarChartGroupData(
-                x: 2,
-                barRods: [
-                  BarChartRodData(
-                    fromY: 0,
-                    toY: thirdweekincome,
-                    color: Colors.green,
-                    width: 15,
-                  ),
-                  BarChartRodData(
-                    fromY: 0,
-                    toY: thirdweekexpense,
-                    color: Colors.red,
-                    width: 15,
-                  ),
-                ],
-              ),
-              BarChartGroupData(
-                x: 3,
-                barRods: [
-                  BarChartRodData(
-                    fromY: 0,
-                    toY: lastweekincome,
-                    color: Colors.green,
-                    width: 15,
-                  ),
-                  BarChartRodData(
-                    fromY: 0,
-                    toY: lastweekexpense,
-                    color: Colors.red,
-                    width: 15,
-                  ),
-                ],
-              ),
-            ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BarChart(
+            BarChartData(
+              groupsSpace: 5,
+              barGroups: [
+                BarChartGroupData(
+                  x: 0,
+                  barRods: [
+                    BarChartRodData(
+                      fromY: 0,
+                      toY: firstweekincome,
+                      color: Colors.green,
+                      width: 15,
+                    ),
+                    BarChartRodData(
+                      fromY: 0,
+                      toY: firstweekexpense,
+                      color: Colors.red,
+                      width: 15,
+                    ),
+                  ],
+                ),
+                BarChartGroupData(
+                  x: 1,
+                  barRods: [
+                    BarChartRodData(
+                      fromY: 0,
+                      toY: secondweekincome,
+                      color: Colors.green,
+                      width: 15,
+                    ),
+                    BarChartRodData(
+                      fromY: 0,
+                      toY: secondweekexpense,
+                      color: Colors.red,
+                      width: 15,
+                    ),
+                  ],
+                ),
+                BarChartGroupData(
+                  x: 2,
+                  barRods: [
+                    BarChartRodData(
+                      fromY: 0,
+                      toY: thirdweekincome,
+                      color: Colors.green,
+                      width: 15,
+                    ),
+                    BarChartRodData(
+                      fromY: 0,
+                      toY: thirdweekexpense,
+                      color: Colors.red,
+                      width: 15,
+                    ),
+                  ],
+                ),
+                BarChartGroupData(
+                  x: 3,
+                  barRods: [
+                    BarChartRodData(
+                      fromY: 0,
+                      toY: lastweekincome,
+                      color: Colors.green,
+                      width: 15,
+                    ),
+                    BarChartRodData(
+                      fromY: 0,
+                      toY: lastweekexpense,
+                      color: Colors.red,
+                      width: 15,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
