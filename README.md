@@ -33,10 +33,10 @@ Visit Visualize Page to view monthly comparison charts.
 
 📸 Screenshots
 
-Home Page:
+Home Page
 ![Home Page](https://github.com/Prottoy-01/Expense_Tracker/blob/35cec904b43683a7d2cd3a7883f847a246683b9a/Screenshots/Screenshot_20251027-095148.png)
 
-Calculate Pge:
+Calculate Pge
 ![Calculate Page](https://github.com/Prottoy-01/Expense_Tracker/blob/35cec904b43683a7d2cd3a7883f847a246683b9a/Screenshots/Screenshot_20251027-095156.png)
 
 Visualize Page
